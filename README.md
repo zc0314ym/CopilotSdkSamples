@@ -40,7 +40,7 @@ SDK は同梱の **Copilot CLI ランタイム** を子プロセスとして起�
 | スラッシュコマンド | `SessionConfig.Commands` | – |
 | UI Elicitation | `session.Ui.ConfirmAsync/SelectAsync/InputAsync` | – |
 | BYOK | `SessionConfig.Provider`（OpenAI 互換など自前キー） | – |
-| フック / MCP / カスタムエージェント | `Hooks`, `McpServers`, `CustomAgents` | – |
+| フック / MCP / カスタムエージェント | `SessionConfig.Hooks`, `McpServers`, `CustomAgents` | [06_Hooks](src/06_Hooks), [07_McpServer](src/07_McpServer) + [08_McpClient](src/08_McpClient), [09_CustomAgents](src/09_CustomAgents) |
 | メモリ | `MemoryConfiguration` | – |
 | テレメトリ | `CopilotClientOptions.Telemetry`（OpenTelemetry） | – |
 
@@ -60,7 +60,24 @@ dotnet run --project src\02_Streaming
 dotnet run --project src\03_CustomTool
 dotnet run --project src\04_StructuredOutput
 dotnet run --project src\05_SessionResume
+dotnet run --project src\06_Hooks
+dotnet run --project src\08_McpClient     # 07_McpServer は自動でビルドされ、子プロセスとして起動されます
+dotnet run --project src\09_CustomAgents
 ```
+
+## MCP (Model Context Protocol) の使い方
+
+MCP は外部ツールを AI に接続する標準規格です。SDK では `SessionConfig.McpServers` にサーバーを登録するだけで、Copilot がツールを呼び出せます。
+
+| 種類 | 設定クラス | 用途 |
+|---|---|---|
+| ローカル (stdio) | `McpStdioServerConfig` | 子プロセスとして起動する自作ツール、スクリプト |
+| リモート (HTTP) | `McpHttpServerConfig` | クラウド上の共有サービス（例: GitHub MCP） |
+
+- [07_McpServer](src/07_McpServer): 公式 `ModelContextProtocol` パッケージで作った C# の MCP サーバー（足し算、時刻、社員検索）。stdout はプロトコル専用なのでログは stderr に出します。
+- [08_McpClient](src/08_McpClient): そのサーバーをセッションに登録して呼び出します。ランタイム上のツール名は `<サーバー名>-<ツール名>`（例: `demo-add_numbers`）です。
+- `Tools = ["*"]` で全ツール、`[]` でなし、名前列挙で限定できます。`DisabledMcpServers` でセッション単位に無効化もできます。
+
 
 Visual Studio では `CopilotSdkSamples.sln` を開き、起動プロジェクトを選んで実行します。
 

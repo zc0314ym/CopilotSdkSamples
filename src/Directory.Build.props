@@ -1,5 +1,5 @@
 <Project>
-  <ItemGroup Condition="'$(MSBuildProjectDirectory)' != '$(MSBuildThisFileDirectory)'">
+  <ItemGroup Condition="'$(MSBuildProjectDirectory)' != '$(MSBuildThisFileDirectory)' And '$(MSBuildProjectName)' != '07_McpServer'">
     <Compile Include="$(MSBuildThisFileDirectory)CopilotAuth.cs" Link="CopilotAuth.cs" />
   </ItemGroup>
 </Project>
