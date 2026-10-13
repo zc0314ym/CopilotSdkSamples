@@ -2,7 +2,7 @@
 
 // ストリーミング: 応答を逐次表示する
 Console.OutputEncoding = System.Text.Encoding.UTF8;
-await using var client = new CopilotClient();
+await using var client = CopilotAuth.CreateClient();
 await client.StartAsync();
 
 await using var session = await client.CreateSessionAsync(new SessionConfig

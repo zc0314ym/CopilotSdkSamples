@@ -3,7 +3,7 @@ using GitHub.Copilot;
 
 // 構造化出力 (experimental): .NET 型から JSON Schema を生成し、結果を型として受け取る
 Console.OutputEncoding = System.Text.Encoding.UTF8;
-await using var client = new CopilotClient();
+await using var client = CopilotAuth.CreateClient();
 await client.StartAsync();
 
 await using var session = await client.CreateSessionAsync(new SessionConfig

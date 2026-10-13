@@ -10,7 +10,7 @@ async Task<string?> AskAsync(CopilotSession session, string prompt)
 }
 
 Console.OutputEncoding = System.Text.Encoding.UTF8;
-await using (var client = new CopilotClient())
+await using (var client = CopilotAuth.CreateClient())
 {
     await client.StartAsync();
     await using var session = await client.CreateSessionAsync(new SessionConfig
@@ -22,7 +22,7 @@ await using (var client = new CopilotClient())
     Console.WriteLine(await AskAsync(session, "私の好きな言語は C# です。覚えておいてください。"));
 }
 
-await using (var client = new CopilotClient())
+await using (var client = CopilotAuth.CreateClient())
 {
     await client.StartAsync();
     await using var session = await client.ResumeSessionAsync(sessionId, new ResumeSessionConfig

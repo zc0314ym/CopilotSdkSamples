@@ -4,7 +4,7 @@ using Microsoft.Extensions.AI;
 
 // カスタムツール: モデルが必要に応じて自前の C# 関数を呼び出す
 Console.OutputEncoding = System.Text.Encoding.UTF8;
-await using var client = new CopilotClient();
+await using var client = CopilotAuth.CreateClient();
 await client.StartAsync();
 
 var getWeather = CopilotTool.DefineTool(

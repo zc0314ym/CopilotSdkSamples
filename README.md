@@ -15,7 +15,13 @@ SDK は同梱の **Copilot CLI ランタイム** を子プロセスとして起�
 
 - .NET 10 SDK（SDK 自体は .NET Standard 2.0 互換）
 - GitHub Copilot のサブスクリプション
-- 認証: `gh auth login` 済み（既定でログインユーザーを使用）、または `CopilotClientOptions.GitHubToken` にトークン指定
+- 認証（必須）: 未認証だと `No GitHub OAuth token or Copilot HMAC key provided` になります。
+  `src/CopilotAuth.cs` が次の順でトークンを解決します。
+  1. 環境変数 `COPILOT_GITHUB_TOKEN` / `GH_TOKEN` / `GITHUB_TOKEN`
+  2. `gh auth token`（事前に `gh auth login` を実行）
+  3. 上記が無ければ Copilot CLI のログイン情報（`CopilotClientOptions.UseLoggedInUser`）
+
+  Visual Studio から実行する場合は、`gh auth login` を済ませるか、環境変数を設定して VS を再起動してください。
 
 ## 主な機能
 

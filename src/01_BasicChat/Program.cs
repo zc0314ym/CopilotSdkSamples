@@ -2,7 +2,7 @@
 
 // 基本: クライアント起動 -> セッション作成 -> 送信 -> 応答待ち
 Console.OutputEncoding = System.Text.Encoding.UTF8;
-await using var client = new CopilotClient();
+await using var client = CopilotAuth.CreateClient();
 await client.StartAsync();
 
 await using var session = await client.CreateSessionAsync(new SessionConfig
